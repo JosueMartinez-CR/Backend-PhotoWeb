@@ -1,7 +1,8 @@
 import HomePage from "../models/homePage.model.js";
 import fs from 'fs-extra';
 import path from 'path';
-import { uploadImage } from "../libs/cloudinary.js";
+import { deleteImage, uploadImage } from "../libs/cloudinary.js";
+import { Console } from "console";
 
 
 export const createHomePage = async (req,res)=> {
@@ -78,4 +79,31 @@ export const updateHomePage = async (req,res)=> {
      res.json('No se pudo actualizar')
   }
 
+}
+
+
+
+export const deleteHomePage = async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log("hola", req.params);
+      const deletedHomePage = await HomePage.findByIdAndDelete(id);
+  
+      if (!deletedHomePage) return res.status(404).json({message: 'HomePage does not exists'})
+        console.log("id: ", deletedHomePage.logos.public_id)
+      await deleteImage(deletedHomePage.logos.public_id)
+      await deleteImage(deletedHomePage.background.public_id)
+      
+      return res.json(deletedHomePage);
+    } catch (error) {
+        console.log("No se pudo borrar")
+      return res.status(500).json({ message: error });
+    }
+  };
+
+
+
+export const getHomePage = async (req,res)=> {
+    const homePages= await HomePage.find()
+    res.send(homePages)
 }

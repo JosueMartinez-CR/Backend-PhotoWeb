@@ -15,7 +15,7 @@ app.set('port',process.env.port || 5000); // configuracion para no reescribir va
 //middlewares
 app.use(express.json()); //Interactuar en forma de json
 app.use (morgan('dev')); //Permite ver los request and resposes en consola
-app.use(express.urlencoded({extended:false}));
+//app.use(express.urlencoded({extended:false}));
 app.use (cors());        //Permite que se conecten de donde sea(otro servidor)
 
 
