@@ -1,6 +1,6 @@
 
 
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 export async function startConnection() {
     try{
         console.log("conn: ", process.env.DATABASE_CONNECTION);
