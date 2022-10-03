@@ -14,6 +14,6 @@ router.route('/homePage')
 .get(getHomePage)
 
 
-router.delete('/homePage/:id',deleteHomePage)
+router.put('/homePage/:username',deleteHomePage)
 
 export default router;

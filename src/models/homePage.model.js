@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const homePageSchema = mongoose.Schema({
-    _id: String,
     logos: {
         public_id: String,
         secure_url: String
@@ -12,11 +11,12 @@ const homePageSchema = mongoose.Schema({
     background: {
         public_id: String,
         secure_url: String
+    },
+    admin: {
+        String,
+        require,
+        unique
     }
-
-    // admin:{
-    //     type: Schema.Types.ObjectId, ref: 'Admin'   //Futures updates
-    // }
 })
 
 export default mongoose.model ('HomePage',homePageSchema)

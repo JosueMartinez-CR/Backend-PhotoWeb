@@ -5,7 +5,7 @@ import Admin from '../models/admin.model.js';
 export const createAdmin = async (req,res)=> {
     const {username,email,password} = req.body
      
-     Admin.findOne({email:email}, (err,user) => {
+     Admin.findOne({username:username}, (err,user) => {
         if(err){
             return res.status(400).json({error: 'Server error'});
         }
@@ -19,7 +19,8 @@ export const createAdmin = async (req,res)=> {
    const admin = new Admin({
     username:username,
     email: email,
-    password:password
+    password:password,
+    homepage: 0
    })   
 
    try {
