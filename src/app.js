@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import adminRoutes from './routes/admin.routes.js'
 import homePageRoutes from './routes/homePage.routes.js'
+import { getStarted } from './controllers/getStarted.js';
 import path from 'path';
 const app = express(); 
 
@@ -25,5 +26,5 @@ app.use('/api',adminRoutes,homePageRoutes);
 //Le decimos a la app que cuando reciba imagenes la lleve a esa carpeta
 app.use('/photos-uploads', express.static(path.resolve('photos-uploads')));
 
-
+app.get('/getStart', getStarted)
 export default app;
