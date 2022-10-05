@@ -13,9 +13,9 @@ const homePageSchema = mongoose.Schema({
         secure_url: String
     },
     admin: {
-        String,
-        require,
-        unique
+        type: String,
+        require: true,
+        unique: true
     }
 })
 

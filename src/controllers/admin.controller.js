@@ -11,7 +11,7 @@ export const createAdmin = async (req,res)=> {
         }
         if(user){
             return res.status(400).json({
-                msj: ' Ya existe un administrador con ese correo.'
+                msj: ' Ya existe un administrador con ese nombre.'
             });
         }
      })
@@ -29,6 +29,6 @@ export const createAdmin = async (req,res)=> {
     res.json('Agregado correctamente')
   } catch(err) {
     // catches errors both in fetch and response.json
-    console.log("No se ha guardado")
+    res.json('Agregado correctamente')
   }
 }
