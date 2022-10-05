@@ -12,11 +12,7 @@ const homePageSchema = mongoose.Schema({
         public_id: String,
         secure_url: String
     },
-    admin: {
-        type: String,
-        require: true,
-        unique: true
-    }
+    admin: String
 })
 
 export default mongoose.model ('HomePage',homePageSchema)

@@ -1,7 +1,7 @@
 
 import Admin from '../models/admin.model.js';
 //import bcrypt from 'bcrypt';
-
+//Remeber do the data validation in the front - end
 export const createAdmin = async (req,res)=> {
     const {username,email,password} = req.body
      
@@ -19,13 +19,11 @@ export const createAdmin = async (req,res)=> {
    const admin = new Admin({
     username:username,
     email: email,
-    password:password,
-    homepage: 0
+    password:password
    })   
 
    try {
     await admin.save()
-    console.log(req.body)
     res.json('Agregado correctamente')
   } catch(err) {
     // catches errors both in fetch and response.json
