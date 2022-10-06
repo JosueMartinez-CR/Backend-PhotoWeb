@@ -54,8 +54,10 @@ export const updateHomePage = async (req, res) => {
 	const { altLogo, Nombre, Text } = req.body
 	
 
+
 	const homePageOwner = await HomePage.findOne({admin: admin});
 	
+	console.log("Home body: ", req.body)
 	if(req.files){
 	const files = Object.values(req.files);
   if (files[0][0].path) {
@@ -63,7 +65,7 @@ export const updateHomePage = async (req, res) => {
 		
 		var result = await uploadImage(files[0][0].path);
 		
-		homePage.logos = {
+		homePageOwner.logos = {
 			public_id: result.public_id,
 			secure_url: result.secure_url
 		}
@@ -75,7 +77,7 @@ export const updateHomePage = async (req, res) => {
 
 		result = await uploadImage(files[1][0].path);
 		
-		homePage.background = {
+		homePageOwner.background = {
 			public_id: result.public_id,
 			secure_url: result.secure_url
 		}
@@ -83,14 +85,19 @@ export const updateHomePage = async (req, res) => {
   }
 }
 	try {
-		console.log("id",homePageOwner._id)
-		await HomePage.findByIdAndUpdate(homePageOwner._id.value, {
-			logos,
+		
+		const updatedHomePage = await HomePage.findByIdAndUpdate(homePageOwner._id, {
+			logos: homePageOwner.logos,
 			altLogo,
 			Nombre,
 			Text,
-			background
-		});
+			background:homePageOwner.background
+		}, {new: true});
+			return res.json({
+				message: 'Succesfully uptadeted',
+				updatedHomePage
+			})
+		
 		
 	} catch (err) {
 		return res.status(500).json({
@@ -99,8 +106,6 @@ export const updateHomePage = async (req, res) => {
 	}
 
 }
-
-
 
 export const deleteHomePage = async (req, res) => {
 	try {
@@ -121,8 +126,6 @@ export const deleteHomePage = async (req, res) => {
 		});
 	}
 };
-
-
 
 export const getHomePage = async (req, res) => {
 	

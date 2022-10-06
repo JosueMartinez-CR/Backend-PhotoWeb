@@ -23,10 +23,46 @@ export const createAdmin = async (req,res)=> {
    })   
 
    try {
+
     await admin.save()
     res.json('Agregado correctamente')
+
   } catch(err) {
-    // catches errors both in fetch and response.json
     res.json('Agregado correctamente')
   }
 }
+
+export const updateAdmin = async (req, res) => {
+
+ const {username} = req.params;
+ const {email, password} = req.body;
+ const originalAdmin = await Admin.findOne({username:username});
+
+ 
+ if(originalAdmin != null){
+  try {
+    const adminUpted = await Admin.findOneAndUpdate(originalAdmin._id, {
+    email,
+    password
+
+    }, {new: true});
+			return res.json({
+				message: 'Succesfully uptadeted',
+				adminUpted
+			})
+  
+  } catch (error) {
+    return res.status(500).json({
+			message: error
+		});
+    
+  }
+
+ }else{
+
+  return res.status(500).json({
+    message: "No se actualizó"
+  });
+ }
+
+} 

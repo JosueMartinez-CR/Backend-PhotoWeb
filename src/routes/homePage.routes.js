@@ -14,7 +14,6 @@ router.route('/homePage')
 router.route('/homePage/:admin')
 .put(updateHomePage)
 .get(getHomePage)
-//router.get('/homePage/get:admin',getHomePage)
 
 
 export default router;
