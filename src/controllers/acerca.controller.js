@@ -1,4 +1,4 @@
-import HomePage from "../models/homePage.model.js";
+import acerca from "../models/acerca.model.js";
 import Admin from "../models/admin.model.js";
 import fs from 'fs-extra';
 import path from 'path';
@@ -6,38 +6,25 @@ import { deleteImage, uploadImage } from "../libs/cloudinary.js";
 
 //To create a home page is necesary the admnin name to create a relation.
 
-export const createHomePage = async (req, res) => {
-	const { altLogo, Nombre, Text, admin } = req.body
+export const createAcercade = async (req, res) => {
+	const {Nombre, Text1, Text2, altLogo, admin } = req.body
 
-  	const homePage = new HomePage({altLogo, Nombre, Text, admin})
-  	const files = Object.values(req.files);
+  	const acercaDe = new acerca({Nombre, Text1, Text2, altLogo, admin})
+  	const files = req.file
 	const user = await Admin.findOne({username:admin});
-	
+
 	if(user){
-
 		console.log("User: ",user.username)
-	
-  if (files[0][0].path) {
-		var result = await uploadImage(files[0][0].path);
-		homePage.logos = {
+		var result = await uploadImage(files.path);
+		acercaDe.logos = {
 			public_id: result.public_id,
 			secure_url: result.secure_url
 		}
-    await fs.unlink(path.resolve(files[0][0].path));
-	}
+    await fs.unlink(path.resolve(files.path));
 
-	if (files[1][0].path) {
-		result = await uploadImage(files[1][0].path);
-		homePage.background = {
-			public_id: result.public_id,
-			secure_url: result.secure_url
-		}
-    await fs.unlink(path.resolve(files[1][0].path));
-	}
-	try {
-		await homePage.save()
-		console.log(req.body)
-		res.json('Agregado correctamente')
+    try {
+		await acercaDe.save()
+		res.json('Agregado correctamente acercaDe')
 		
 	} catch (err) {
 		res.json('No se pudo guardar', err)
@@ -57,7 +44,6 @@ export const updateHomePage = async (req, res) => {
 
 	const homePageOwner = await HomePage.findOne({admin: admin});
 	
-	console.log("Home body: ", req.body)
 	if(req.files){
 	const files = Object.values(req.files);
   if (files[0][0].path) {

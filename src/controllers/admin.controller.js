@@ -64,5 +64,7 @@ export const updateAdmin = async (req, res) => {
     message: "No se actualizó"
   });
  }
-
 } 
+
+
+

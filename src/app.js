@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import adminRoutes from './routes/admin.routes.js'
 import homePageRoutes from './routes/homePage.routes.js'
+import acercaRoutes from './routes/acerca.routes.js'
 import path from 'path';
 const app = express(); 
 
@@ -20,7 +21,7 @@ app.use (cors());        //Permite que se conecten de donde sea(otro servidor)
 
 
 //Routes
-app.use('/api',adminRoutes,homePageRoutes);
+app.use('/api',adminRoutes,homePageRoutes,acercaRoutes);
 
 //Le decimos a la app que cuando reciba imagenes la lleve a esa carpeta
 app.use('/photos-uploads', express.static(path.resolve('photos-uploads')));
