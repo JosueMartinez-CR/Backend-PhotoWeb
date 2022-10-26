@@ -1,4 +1,4 @@
-import acerca from "../models/acerca.model.js";
+import Acerca from "../models/acerca.model.js";
 import Admin from "../models/admin.model.js";
 import fs from 'fs-extra';
 import path from 'path';
@@ -9,18 +9,18 @@ import { deleteImage, uploadImage } from "../libs/cloudinary.js";
 export const createAcercade = async (req, res) => {
 	const {Nombre, Text1, Text2, altLogo, admin } = req.body
 
-  	const acercaDe = new acerca({Nombre, Text1, Text2, altLogo, admin})
-  	const files = req.file
+  	const acercaDe = new Acerca({Nombre, Text1, Text2, altLogo, admin})
+  	const file = req.file
 	const user = await Admin.findOne({username:admin});
 
 	if(user){
 		console.log("User: ",user.username)
-		var result = await uploadImage(files.path);
+		var result = await uploadImage(file.path);
 		acercaDe.logos = {
 			public_id: result.public_id,
 			secure_url: result.secure_url
 		}
-    await fs.unlink(path.resolve(files.path));
+    await fs.unlink(path.resolve(file.path));
 
     try {
 		await acercaDe.save()
@@ -36,52 +36,42 @@ else {
 
 }
 
-export const updateHomePage = async (req, res) => {
+export const updateAcercade = async (req, res) => {
 	const { admin } = req.params;
-	const { altLogo, Nombre, Text } = req.body
+	const {Nombre, Text1, Text2, altLogo } = req.body
 	
 
 
-	const homePageOwner = await HomePage.findOne({admin: admin});
+	const acercaDe = await Acerca.findOne({admin: admin});
 	
-	if(req.files){
-	const files = Object.values(req.files);
-  if (files[0][0].path) {
-		await deleteImage(homePageOwner.logos.public_id)
+	if(req.file){
+	const file = req.file;
+  
+		await deleteImage(acercaDe.logos.public_id)
 		
-		var result = await uploadImage(files[0][0].path);
+		var result = await uploadImage(file.path);
 		
-		homePageOwner.logos = {
+		acercaDe.logos = {
 			public_id: result.public_id,
 			secure_url: result.secure_url
 		}
-    await fs.unlink(path.resolve(files[0][0].path));
+    await fs.unlink(path.resolve(file.path));
 	}
 
-	if (files[1][0].path) {
-		await deleteImage(homePageOwner.background.public_id)
 
-		result = await uploadImage(files[1][0].path);
-		
-		homePageOwner.background = {
-			public_id: result.public_id,
-			secure_url: result.secure_url
-		}
-    await fs.unlink(path.resolve(files[1][0].path));
-  }
-}
 	try {
 		
-		const updatedHomePage = await HomePage.findByIdAndUpdate(homePageOwner._id, {
-			logos: homePageOwner.logos,
+		const updatedAcerca = await Acerca.findByIdAndUpdate(acercaDe._id, {
+			logos: acercaDe.logos,
 			altLogo,
 			Nombre,
-			Text,
-			background:homePageOwner.background
+			Text1,
+			Text2
+
 		}, {new: true});
 			return res.json({
 				message: 'Succesfully uptadeted',
-				updatedHomePage
+				updatedAcerca
 			})
 		
 		

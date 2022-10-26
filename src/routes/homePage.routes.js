@@ -12,7 +12,14 @@ router.route('/homePage')
 
 
 router.route('/homePage/:admin')
-.put(updateHomePage)
+.put(multer.fields([
+    { name: 'logos', maxCount: 1 },
+    { name: 'background', maxCount: 1 }
+  ]),updateHomePage)
+
+
+router.route('/homePage/:admin')
+//.put(updateHomePage)
 .get(getHomePage)
 
 
