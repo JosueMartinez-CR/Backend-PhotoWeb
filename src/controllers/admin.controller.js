@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 //Remeber do the data validation in the front - end
 export const createAdmin = async (req,res)=> {
     const {username,email,password} = req.body
-     
+     console.log(req.body)
      Admin.findOne({username:username}, (err,user) => {
         if(err){
             return res.status(400).json({error: 'Server error'});
@@ -21,6 +21,9 @@ export const createAdmin = async (req,res)=> {
     username:username,
     email: email,
     password: bcrypt.hashSync( password, 10 )
+
+    // const passwordValido = bcrypt.compareSync(password a comparar, password en la bd);
+    //     if(!passwordValido){return res.status(400).json('Usuario o contraseña incorrecta.');
    })   
 
    try {
