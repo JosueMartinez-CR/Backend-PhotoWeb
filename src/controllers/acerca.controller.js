@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { deleteImage, uploadImage } from "../libs/cloudinary.js";
 
-//To create a home page is necesary the admnin name to create a relation.
+//To create a acercaDe is necesary the admnin name to create a relation.
 
 export const createAcercade = async (req, res) => {
 	const {Nombre, Text1, Text2, altLogo, admin } = req.body
@@ -83,18 +83,17 @@ export const updateAcercade = async (req, res) => {
 
 }
 
-export const deleteHomePage = async (req, res) => {
+export const deleteAcercaDe = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const deletedHomePage = await HomePage.findByIdAndDelete(id);
+		const deletedAcerca = await Acerca.findByIdAndDelete(id);
 
-		if (!deletedHomePage) return res.status(404).json({
-			message: 'HomePage does not exists'
+		if (!deletedAcerca) return res.status(404).json({
+			message: 'Acercade does not exists'
 		})
-		await deleteImage(deletedHomePage.logos.public_id)
-		await deleteImage(deletedHomePage.background.public_id)
+		await deleteImage(deletedAcerca.logos.public_id)
 
-		return res.json(deletedHomePage);
+		return res.json(deletedAcerca);
 	} catch (error) {
 		console.log("No se pudo eliminar")
 		return res.status(500).json({
@@ -103,16 +102,16 @@ export const deleteHomePage = async (req, res) => {
 	}
 };
 
-export const getHomePage = async (req, res) => {
+export const getAcercaDe = async (req, res) => {
 	
     const { admin } = req.params;
-    const result = await HomePage.findOne({admin:admin});
+    const result = await Acerca.findOne({admin:admin});
    if(result!=null){
 	return res.json(result);
    }
    else {
 	res.status(404).json({
-		message: 'HomePage does not exists'
+		message: 'AcercaDe does not exists'
 	})
    }
 }
