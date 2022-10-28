@@ -1,6 +1,7 @@
 
 import Admin from '../models/admin.model.js';
-//import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
+
 //Remeber do the data validation in the front - end
 export const createAdmin = async (req,res)=> {
     const {username,email,password} = req.body
@@ -19,7 +20,7 @@ export const createAdmin = async (req,res)=> {
    const admin = new Admin({
     username:username,
     email: email,
-    password:password
+    password: bcrypt.hashSync( password, 10 )
    })   
 
    try {
